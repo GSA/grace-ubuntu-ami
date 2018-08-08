@@ -60,7 +60,8 @@ workflows:
                 - master
           requires:
             - install_and_validate
-            
+          no_output_timeout: 1h
+          
   validate_and_deploy:
     jobs:
       - install_and_validate
@@ -71,3 +72,4 @@ workflows:
                 - master
           requires:
             - install_and_validate
+          no_output_timeout: 1h
