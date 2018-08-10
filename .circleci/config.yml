@@ -37,6 +37,8 @@ jobs:
       - run:
           name: Build ubuntu16 AMI
           command: |
+            export TENANT_ACCOUNTS=$(aws s3 cp --quiet s3://grace-tenant-info/tenant-info/tenants.txt /dev/stdout)
+            echo $TENANT_ACCOUNTS
             export USER=$(whoami)
             make ubuntu16
 
