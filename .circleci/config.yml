@@ -22,7 +22,7 @@ jobs:
           paths:
             - ./*
 
-  deploy_ubuntu16:
+  deploy_ubuntu16_and_ubuntu14:
     docker:
       - image: 18fgsa/devsecops-builder:alpine
     steps:
@@ -35,12 +35,13 @@ jobs:
           command: printf "\nHost *\n\tStrictHostKeyChecking no" >> ~/.ssh/config
 
       - run:
-          name: Build ubuntu16 AMI
+          name: Build ubuntu16 and ubuntu14 AMIs
           command: |
             export TENANT_ACCOUNTS=$(aws s3 cp --quiet s3://grace-tenant-info/tenant-info/tenants.txt /dev/stdout)
             echo $TENANT_ACCOUNTS
             export USER=$(whoami)
             make ubuntu16
+            make ubuntu14
           no_output_timeout: 1h
 
 workflows:
@@ -56,7 +57,7 @@ workflows:
                 - master
     jobs:
       - install_and_validate
-      - deploy_ubuntu16:
+      - deploy_ubuntu16_and_ubuntu14:
           filters:
             branches:
               only:
@@ -67,7 +68,7 @@ workflows:
   validate_and_deploy:
     jobs:
       - install_and_validate
-      - deploy_ubuntu16:
+      - deploy_ubuntu16_and_ubuntu14:
           filters:
             branches:
               only:

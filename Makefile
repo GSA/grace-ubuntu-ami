@@ -12,3 +12,6 @@ validate_packer:
 
 ubuntu16: roles
 	packer build -var-file=packer/ubuntu16.json packer/template.json
+
+ubuntu14: roles
+	packer build -var-file=packer/ubuntu14.json packer/template.json
